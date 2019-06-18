@@ -1,0 +1,1 @@
+export const SHOPLIST = 'shop_list'

@@ -1,8 +1,16 @@
 <template>
 <!-- 搜索框 -->
-  <div class="homeBig">
+  <div id="homeWrap">
+
+    <router-view></router-view>
+    
+    <div class="show" v-show="isChange">
+      
+      <div class="homeList">
+         <!-- 蒙版 -->
+    <div class="masck" v-show="show" @click="change"></div>
     <div class="hdWrap">
-      <div class="line">
+      <div class="line"  @click="goToSeacher">
         <a href="javascript:;">
           <img src="http://yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/indexLogo-a90bdaae6b.png" alt="网易严选">
         </a>
@@ -65,11 +73,6 @@
           </div>
       </div>
     </div>
- <div id="homeWrap">
-    <div class="homeList">
-         <!-- 蒙版 -->
-    <div class="masck" v-show="show" @click="change"></div>
-    
   <!-- 轮播图 -->
     <div class="slideWarp">
 
@@ -145,21 +148,45 @@
         </a>
       </a>
       <div class="indexBigPromotionModule" style="background-color:initial;background-image:url(https://yanxuan.nosdn.127.net/6b2eb7819e2e7802d8cded1246e30697.jpg?imageView&quality=75);background-size:100% 100%;">
+        <a href="##" class="action" style="background:url(https://yanxuan.nosdn.127.net/c27ea46bc3decd2d8ef25c0650a00562.png?imageView&thumbnail=750x0&quality=75);background-size:100% 100%;">
+          <!-- 活动 -->
+        </a>
+        <ul class="actionList">
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/ee26de3a440f1253efd9d2b6bc4b739d.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/59eb7e52ab114c894a8179bc2991122b.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
 
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/a66b70ecae4e57b27c0d094c8f1c82f6.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/5459e22c904dd78e3cbecafb32e025b2.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/165889ccb0dad3a4962183a0c656daba.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/9c5828a413c4218559e494ff8558e837.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/2cbf6bd0d88f776bf7d918730b15ebc8.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/61b90e0df4c551cb05f7c601646bf2f7.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/5fd3e1b7eca6046585e18c123366eac8.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/41e6e8c382aace80de4bf88088d877ec.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
+          <li class="item" style="background:url(https://yanxuan.nosdn.127.net/b52b890f196dde9873dea4eba1b5ade1.png?imageView&thumbnail=375x0&quality=75);background-size:100% 100%;">
+            <img src="http://yanxuan.nosdn.127.net/ce05902689fd08c4e6d494355f193a96.png?imageView&thumbnail=160x160&quality=75" alt="">
+          </li>
+        </ul>
       </div>
     </div>
     </div>
-  </div>
 
 
+    </div>
+    
   </div>
- 
+
 </template>
 <script>
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 import BScroll from 'better-scroll'
-import {shopList} from '../../api/index'
+import {shopList,seacher} from '../../api/index'
 import { mapState } from 'vuex'
 // console.log(BScroll)
 // console.log(shopList)
@@ -169,16 +196,21 @@ export default {
       show:false,
       index:0,
       is1px:null,
+      // isChange:true //是否显示以及路由
 
     }
   },
 
      computed: {
-      ...mapState(['shopList'])     //这里 将mapState这个对象展开  里面展开的内容   {传进去的数组字符串: () => this.$store.getters['字符串']}
+      ...mapState(['shopList','isChange'])     //这里 将mapState这个对象展开  里面展开的内容   {传进去的数组字符串: () => this.$store.getters['字符串']}
     }
   ,
  async mounted(){
-      new BScroll('.scroll', {
+
+      // console.log(seacher('运动鞋'),'rrrrrrrrrrrr')
+    const data = await seacher('运动鞋')
+    console.log(data,'890987656787654e5676543')
+    new BScroll('.scroll', {
           click: true, 
           scrollX: true,
         })
@@ -193,16 +225,7 @@ export default {
             el: '.swiper-pagination',
           },
         })
-        //发送请求 获取shoplist数据
-        const reuslt = await shopList()
-        //更新vuex中的数据
-        // console.log(this.$store)
-        if(reuslt.code===0){
-
-          this.$store.dispatch('shopList',reuslt.data)
-          console.log(reuslt,'111111111')
-          console.log(shopList)
-        }
+     
   },
   methods:{
     rightToggle(){
@@ -225,20 +248,31 @@ export default {
       // console.log(this.to1px)
       this.is1px = to1px
       // console.log(to1px)
-    }  
+    },
+    goToSeacher(){
+      this.$router.replace('/home/seacher')
+      this.$store.dispatch('isChange',false)
+    }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" >
-.homeBig
-  height 100%
-  position relative
-   .hdWrap
-        position fixed
+    #homeWrap
+      height 100%
+      position relative
+      .masck
+        z-index 19
         top 0
-        left 0
-        z-index 20
+        height 100%
+        width 100%
+        position absolute
+        background-color rgba(0,0,0,.5)
+      .hdWrap
+        // position fixed
+        // top 0
+        // left 0
+        // z-index 20
         // height 74px
         height 148px
         background-color #fff
@@ -405,18 +439,6 @@ export default {
 
 
 
-      
-
-    #homeWrap
-      height 100%
-      position relative
-      .masck
-        z-index 19
-        top 0
-        height 100%
-        width 100%
-        position absolute
-        background-color rgba(0,0,0,.5)
       .slideWarp
         width 100%
         // height 187px
@@ -463,7 +485,7 @@ export default {
       .main
         width 100%
         height 2000px
-        background-color pink
+        // background-color pink
         .kingkongCarousel
           width 100%
           height 373px
@@ -505,7 +527,34 @@ export default {
               height 168px
               width 168px
         .indexBigPromotionModule
-          height 750px
+          // height 750px
+          display flex
+          align-items center
+          flex-direction column
           width 100%
+          .action
+            height 160px
+            width 710px
+            display block
+        .actionList
+          // width 351px
+          // height 186px
+          // display flex
+          .item
+            // height 
+            width 351px
+            height 186px
+            float left
+            margin-left 16px
+            margin-top 10px
+            position relative
+            img
+              right 0px
+              top 20px
+              position absolute
+              width 166px
+              height 166px
+
+
 
 </style>

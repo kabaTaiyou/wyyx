@@ -18,13 +18,20 @@ module.exports = {
   // 代理配置
    devServer: {
      proxy: {
-       '/api': {
+       '/aaa': {
          target: 'http://m.you.163.com/xhr/search',
          changeOrigin: true,
          pathRewrite: {
-           '^/api': '', // 去掉path前面的/api
+           '^/aaa': '', // 去掉path前面的/api
          },
-       }
+       },
+       '/bbb': {
+        target: 'http://m.you.163.com/topic/v1/find',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/bbb': '', // 去掉path前面的/api
+        },
+      }
      }
    }
 

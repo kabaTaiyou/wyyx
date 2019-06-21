@@ -6,13 +6,13 @@
                  <span>首页</span>
             </div>
         </span>
-        <span class="item" @click="goto('/item')"  :class="{on:'/item' ===$route.path}">
+        <span class="item" @click="goto('/item')"  :class="{on:$route.path.indexOf('/item')===0}">
             <div class="content">
                 <i class="iconfont">&#xe669;</i>
                 <span>分类</span>
             </div>   
         </span>
-        <span class="item" @click="goto('/topic')" :class="{on:'/topic' ===$route.path}">
+        <span class="item" @click="goto('/topic')" :class="{on:$route.path.indexOf('/topic')===0}">
             <div class="content">
                 <i class="iconfont">&#xe753;</i>
                 <span>识物</span>
@@ -38,7 +38,16 @@ export default {
     methods:{
         goto(path){
             console.log(1)
-            this.$router.replace(path)
+           
+            if(path==='/item'){
+                this.$router.push({path:'/item/detial',query:{page:0}})
+                // alert(1)
+            }else if(path === '/topic'){
+                this.$router.push({  name:'openIn',params:{type:0}}) 
+                   
+            }else{
+                 this.$router.replace(path)
+            }
         }
     }
 }

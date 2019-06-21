@@ -8,9 +8,14 @@
                 <i class="iconfont">
                     &#xe62d;
                 </i>
-            </span><input type="text" class="text" placeholder="请输入要搜索的内容">
+            </span>
+            <input v-model="val" type="text" class="text" placeholder="潮鞋值降500元">
+            <!-- 删除 -->
+            <span v-show="val" @click="delate">
+                <i class="iconfont">&#xe625;</i>
+            </span>
             </div>
-            <span class="cancel">
+            <span class="cancel" @click="back">
                 取消
             </span>
 
@@ -31,23 +36,40 @@
           </div>
           <!-- 下拉 -->
           <ul class="selection">
-            <li>内容</li>
-            <li>内容</li>
-            <li>内容</li>
-            <li>内容</li>
-            <li>内容</li>
+            <li v-for="(item,index) in showList" :key='index'>{{item}}</li>
+            
           </ul>
       </div>
   </div>
 </template>
 <script>
-import { HotKeyWords } from '../../../api';
+
+import { HotKeyWords ,seacher} from '../../../api';
 export default {
     data(){
         return{
             hotKeywordVOList:[],
-            isChoose:0
+            isChoose:0,
+            val:'',
+            showList:[]
         }
+    },
+
+    watch: {
+      async val(newVal) {
+
+        //得到数据 进行列表显示 
+        //判断
+        const result =  await seacher(newVal)
+        console.log(result,'resulit')
+        if(result.code === '200'){
+            //成功
+            this.showList = result.data
+            console.log(111)
+        }
+
+      
+      }
     },
    async mounted(){
        const result =  await HotKeyWords()
@@ -62,6 +84,12 @@ export default {
         Choose(index){
             this.isChoose = index
             console.log(index)
+        },back(){
+            this.$router.push('/home')
+            this.$store.dispatch('isChange',true)
+        },delate(){
+            this.val = ''
+            this.showList = []
         }
     }
 }
@@ -93,8 +121,22 @@ export default {
                         background-color #f4f4f4
                         font-size 28px
                         height 56px
-                        width 604px
+                        width 500px
                         outline none
+                    span 
+                        background-color #f4f4f4
+                        color #777
+                        width 50px
+                        position relative
+                        i 
+                            position absolute
+                            top 10px
+                            display inline-block
+                            height 100%
+                            width 100%
+                            text-align center                            
+                            line-height 28px
+                    
                 .cancel
                     display inline-block
                     font-size 28px
@@ -131,9 +173,11 @@ export default {
                 position absolute
                 top 88px
                 left 0
-                background-color red
+                background-color #fff
                 width 100%
                 li
+                    padding 0 30px
+
                     height 104px
                     width 100%
                     border-bottom 1px solid #eee

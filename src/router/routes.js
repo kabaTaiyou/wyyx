@@ -4,6 +4,8 @@ import topic from '../pages/topic/topic.vue'
 import cart from '../pages/cart/cart.vue'
 import ucenter from '../pages/ucenter/ucenter.vue'
 import  seacher  from '../pages/home/seacher/seacher';
+import itemDeaial from '../pages/item/itemDeaial/itemDeaial'
+
 
 export default[
     {
@@ -22,16 +24,29 @@ export default[
     {
         path: '/item',
        component: item,
+       children: [
+        {
+            path:'/item/detial',
+            component:itemDeaial,
+            props:(routes)=>{ return {page:routes.query.page}},
+            meta: {
+              isShowFoot: true
+            },
+        },
+        
+       ],
        meta: {
         isShowFoot: true
       }
     },
     {
-        path: '/topic',
-       component: topic,
+        path: '/topic/:type',
+        name:'openIn',
+        component: topic,
        meta: {
         isShowFoot: true
-      }
+      },
+     
     },
     {
         path: '/cart',
@@ -42,10 +57,8 @@ export default[
     },
     {
         path: '/ucenter',
-       component: ucenter,
-       meta: {
-        isShowFoot: true
-      }
+       component: ucenter
+     
     },
      {
         path: '/',

@@ -250,8 +250,7 @@
           <bannerBigImg indexBanner="0" />
           <bannerBigImg indexBanner="1" />
           <bannerBigImg indexBanner="2" />
-          <bannerBigImg indexBanner="3" />
-          <!-- <bannerBigImg indexBanner="" /> -->
+          <bannerBigImg indexBanner="3" /> 
      
          <FOURImg />
           
@@ -893,7 +892,13 @@ export default {
   margin-top 70px
   background rgb(65,65,65)
   margin-top 30px
+  display flex
+  width 100%
+  justify-content center
+  align-items center
+  
   .showText
+    align-items center
     height 62px
     width 100%
     display flex

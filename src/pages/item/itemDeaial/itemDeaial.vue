@@ -23,7 +23,7 @@ export default{
             bannerImg:[]
         }
     },
-    props:['page'],
+    props:['page','name'],
     async mounted(){
         // console.log(this.$route.query,'222222222222222222222222')
         // console.log(1111);
@@ -31,6 +31,7 @@ export default{
         const result =  await reqRight()
         console.log(result,'data')
 
+        console.log(this,'-------------===============')
         
         if(result.code === 0){
            this.rightList =  result.data  

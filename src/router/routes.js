@@ -28,7 +28,7 @@ export default[
         {
             path:'/item/detial',
             component:itemDeaial,
-            props:(routes)=>{ return {page:routes.query.page}},
+            props:(routes)=>{ return {page:routes.query.page,name:'hahahahaha'}},
             meta: {
               isShowFoot: true
             },

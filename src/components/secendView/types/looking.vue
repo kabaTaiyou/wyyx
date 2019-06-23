@@ -16,7 +16,7 @@
 
             </i>
             <span>
-                123人看过
+                {{look.readCount}}人看过
             </span>
         </span>
     </div>

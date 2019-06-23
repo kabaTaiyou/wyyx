@@ -1,6 +1,6 @@
 <template>
- <div class="ucenterWrap">
-   <header class="headerucenter" v-show="isShow === 0">
+ <div class="ucenterWrapEMAIL">
+   <header class="headerucenter">
             <span class="leftText" @click="gotoLink('/home')">
               <i class="iconfont">
               &#xe618;  
@@ -23,26 +23,35 @@
         </header>
  
   
-  <div class="cont" v-show="isShow === 0">
+  <div class="cont">
     <div class="logoWrap">
       <img src="http://yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt="">
 
     </div>
+     <input class="inputs" placeholder="请输入手机号"  
+     type="tel" maxlength="11" name="phone" 
+              v-model="phone" v-validate="'required|mobile'"
+     >
+  
+     <span  class="ts"  v-show="errors.has('phone')" style="color: red">{{ errors.first('phone') }}</span>
+    <input  class="inputs" placeholder="请输入密码"
+    type="password" maxlength="8" name="password" 
+              v-model="password" v-validate="'required|pwd'"
+    >
+     <span  class="ts"  v-show="errors.has('password')" style="color: red">{{ errors.first('password') }}</span>
+    <div class="yzm">获取验证码</div>
       <div class="btns">
-          <div class="tel" @click="gotoToogel(2)">
+         
+          <div class="tel">
             <span>
-              <i class="iconfont">
-                &#xe645;
-              </i>
-              手机登陆
+             
+              登陆
             </span>
           </div>
-          <div class="email" @click="gotoToogel(1)">
+          <div class="email" @click="gotoToogel(0)">
               <span>
-                <i class="iconfont">
-                &#xe61e;
-                </i>
-                邮箱登陆
+              
+                其他方式登陆
               </span>
           </div>
           <span class="qukly">
@@ -52,45 +61,46 @@
   </div>
 
 
-  <email v-show="isShow === 1" :gotoToogel="gotoToogel"/>
-  <tel v-show="isShow === 2" :gotoToogel="gotoToogel"/>
+
 
  </div>
 </template>
 <script>
-import email from './moudle/emal'
-import tel from './moudle/tel'
 export default {
 data(){
-  return{
-    isShow:2
-  }
+    return{
+        phone: ''
+    }
 },
+props:['gotoToogel'],
+// beforeRouteEnter(to,from,next){
+//   next(vm => {
+//     console.warn(to.redirectedFrom,'tootototoototoototo')
+//     if(to.redirectedFrom){//vue-router redirect不会刷新页面，需要判断并刷新
+//       // vm.$router.go(0)//safari浏览器go(0)无效
+//       window.location.reload()
+//     }
+//   })
+// },
+
 methods:{
     gotoLink(path){
                 this.$router.push({path})
                 // this.$store.dispatch("isChange", false);
                   this.isRouterAlive = true;
-              },
-    gotoToogel(isShow){
-      this.isShow = isShow
-    }
-},
-components:{
-  email,
-  tel
+              }
 }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" >
-.ucenterWrap
+.ucenterWrapEMAIL
     height 100%
     width 100%
-    background-color #f2f5f4
+    background-color #ffffff
     .headerucenter
+        background-color #f2f5f4
         z-index 100
-
         height 100px
         // background-color red
         display flex
@@ -110,7 +120,29 @@ components:{
             width 100%
     .cont
       width 100%
-      height 700px
+      position relative
+      .inputs
+        display block
+        margin 20px auto
+        background-color #ffffff
+        outline none
+        height 90px
+        // height 400px
+        width 669px
+        margin-bottom 20px
+        border-bottom 1px solid #999
+      .ts
+        margin-left 30px
+      .yzm
+        width 168px
+        height 56px
+        border 1px solid #999
+        border-radius 6px
+        text-align center
+        line-height 56px
+        position absolute
+        bottom 500px
+        right 40px
       .logoWrap
         height 400px
         text-align center
@@ -119,8 +151,9 @@ components:{
         height 90px
         width 268px
       .btns
-        height 292px
+        // height 292px
         width 100%
+    
         // background-color yellow
         display flex
         justify-items center

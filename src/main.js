@@ -7,9 +7,10 @@ import App from './App'
 import store from './vuex/store'
 import './mock/mock-serve'
 import router from './router/index'
-Vue.config.productionTip = false
-
+import './validate'
 // 注册全局组件
+
+Vue.config.productionTip = false
 
 // Vue.use(VueLazyload)
 Vue.use(VueLazyLoad, {

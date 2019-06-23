@@ -60,6 +60,8 @@ export default {
        click: true
     })
     
+
+    
     new BScroll(".right", {
        click: true
     })

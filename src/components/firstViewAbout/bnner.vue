@@ -2,7 +2,7 @@
     <div class="bannerBigImg">
         <div class="headeTitle">
            <!-- <slot name="xxx" ></slot> -->
-           <img :src="six[indexBanner].img" alt="">
+           <img  class="eeeimg"  :src="six[indexBanner].img" alt="">
         </div>
 
         <div class="bottomscroll" ref="scroll">
@@ -65,15 +65,6 @@ async mounted(){
 //  console.log('dispatch', this.$store.dispatch('banner'))  
 //   await this.$store.dispatch('banner')
 console.log(this)
-//   new BScroll(".bottomscroll", {
-//       click: true,
-//       scrollX: true
-//     });
-
-//       new BScroll(".bottomscroll", {
-//       click: true,
-//       scrollX: true
-//     });
 
 }
 
@@ -83,11 +74,14 @@ console.log(this)
 <style lang="stylus" rel="stylesheet/stylus" >
 .bannerBigImg
     width 740px
-    height 528px
-    // margin-bottom 200px
+    height 620px
+    display flex
+    flex-direction column
+
+    margin-bottom 200px
     box-sizing border-box
     background-color #fff
-    margin-bottom 130px
+    // margin-bottom 130px
     margin-left 5px
     .headeTitle
         height 370px
@@ -95,7 +89,7 @@ console.log(this)
         font-size 32px
         text-align center
         line-height 90px
-        img 
+        .eeeimg 
             height 100%
             width 100%
     .bottomscroll

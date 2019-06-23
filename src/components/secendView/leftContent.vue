@@ -21,7 +21,7 @@ import looking from '../secendView/types/looking'
 export default {
     data(){
         return{
-            pagesize:3
+            pagesize:2
         }
     },
     computed:{
@@ -29,32 +29,62 @@ export default {
     }
     ,
     mounted(){
+        
         console.log(this.$refs,'------------------------------------')
-        this.$store.dispatch('lazyShow',{pagesize:2,size:5})
+        this.$store.dispatch('lazyShow',{pagesize:1,size:5})
         // this.$store.dispatch('lazyShow',3)
 
-       this.scroll = new BScroll(".leftTopicWrap", {
-                click: true,
-                // pullUpLoad:true,
-                // pullDownRefresh:true,
-                 probeType: 2, // 实时, 触摸
-                // startY:0
-                // scrollY
-       });
-       this.scroll.on('scroll', ({x, y}) => {
-        //   console.log('scroll', x, y)
-        //   console.log(this.$refs.boxItem.offsetHeight,'ahahhahah')
-          if(Math.abs(y)>=this.$refs.boxItem.offsetHeight-465){
+       
+       if(this.scroll){
 
-                 this.$store.dispatch('lazyShow',{pagesize:this.pagesize,size:5})
-                    console.log('触发了')
-                    this.pagesize++
-                    console.log('this.page触发',this.pagesize)
+           
                     this.scroll.refresh();
 
-          }
-          this.scrollY = Math.abs(y)
-        })
+
+       }else{
+                this.scroll = new BScroll(".leftTopicWrap", {
+                            click: true,
+                            // pullUpLoad:true,
+                            // pullDownRefresh:true,
+                            probeType: 2, // 实时, 触摸
+                            // startY:0
+                            // scrollY
+                            pullUpLoad: {
+                                threshold: 50
+                            },
+                            
+                });
+
+
+
+                 this.scroll.on('pullingUp', async () => {
+            // this.morePage++;
+            console.log('加载ajax数据');
+            this.$store.dispatch('lazyShow',{pagesize:this.pagesize,size:5})
+                    console.log('触发了')
+                    // this.scroll.refresh();
+                    this.scroll.finishPullUp(); // 可以多次执行上拉刷新
+                    this.pagesize++
+          });
+       }
+
+
+
+
+    //    this.scroll.on('scroll', ({x, y}) => {
+    //     //   console.log('scroll', x, y)
+    //     //   console.log(this.$refs.boxItem.offsetHeight,'ahahhahah')
+    //       if(Math.abs(y)>=this.$refs.boxItem.offsetHeight-465){
+
+    //              this.$store.dispatch('lazyShow',{pagesize:this.pagesize,size:5})
+    //                 console.log('触发了')
+    //                 this.pagesize++
+    //                 console.log('this.page触发',this.pagesize)
+    //                 this.scroll.refresh();
+
+    //       }
+    //       this.scrollY = Math.abs(y)
+    //     })
 
 
 

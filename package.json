@@ -16,7 +16,7 @@
     "mockjs": "^1.0.1-beta3",
     "postcss-pxtorem": "^4.0.1",
     "swiper": "^4.5.0",
-    "vee-validate": "^2.2.9",
+    "vee-validate": "2.0.0-rc.25",
     "vue": "^2.6.10",
     "vue-lazyload": "^1.2.6",
     "vue-router": "^3.0.6",
